@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deploy Test</title>
+<meta name="description" content="A static site deployed from Claude Code to Vercel.">
+<style>
+  :root {
+    --bg: #fbfbfa;
+    --panel: #ffffff;
+    --text: #1a1a18;
+    --muted: #6b6b66;
+    --line: #e4e4e0;
+    --accent: #c2410c;
+    --ok: #15803d;
+    --ok-bg: #dcfce7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #151513;
+      --panel: #1e1e1b;
+      --text: #f2f2ef;
+      --muted: #9a9a92;
+      --line: #32322d;
+      --accent: #fb923c;
+      --ok: #86efac;
+      --ok-bg: #14321f;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #151513;
+    --panel: #1e1e1b;
+    --text: #f2f2ef;
+    --muted: #9a9a92;
+    --line: #32322d;
+    --accent: #fb923c;
+    --ok: #86efac;
+    --ok-bg: #14321f;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+  header { padding: 88px 0 56px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--ok-bg); color: var(--ok);
+    border-radius: 999px; padding: 5px 13px 5px 11px;
+    font-size: 13px; font-weight: 600; letter-spacing: .01em;
+  }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+  h1 {
+    font-size: clamp(2.1rem, 7vw, 3.1rem);
+    line-height: 1.08; letter-spacing: -.028em;
+    margin: 22px 0 0; font-weight: 640;
+  }
+  h1 em { font-style: normal; color: var(--accent); }
+  .lede { color: var(--muted); font-size: 1.1rem; max-width: 46ch; margin: 18px 0 0; }
+  .rule { height: 1px; background: var(--line); border: 0; margin: 0; }
+  section { padding: 44px 0; }
+  h2 {
+    font-size: .76rem; text-transform: uppercase; letter-spacing: .1em;
+    color: var(--muted); font-weight: 650; margin: 0 0 22px;
+  }
+  ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  li {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 11px; padding: 16px 18px;
+    display: grid; grid-template-columns: 26px 1fr; gap: 14px; align-items: start;
+  }
+  .n {
+    font-variant-numeric: tabular-nums; font-size: .82rem; font-weight: 700;
+    color: var(--accent); padding-top: 2px;
+  }
+  .t { font-weight: 600; margin: 0; }
+  .d { color: var(--muted); font-size: .92rem; margin: 3px 0 0; }
+  code {
+    font: 500 .87em ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+    background: var(--bg); border: 1px solid var(--line);
+    border-radius: 5px; padding: 1px 5px;
+  }
+  footer {
+    padding: 32px 0 72px; color: var(--muted); font-size: .86rem;
+    display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center;
+  }
+  button {
+    font: inherit; font-size: .86rem; color: var(--muted);
+    background: none; border: 1px solid var(--line);
+    border-radius: 7px; padding: 5px 11px; cursor: pointer;
+  }
+  button:hover { color: var(--text); border-color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="badge"><span class="dot"></span>Live</span>
+    <h1>This page was deployed from <em>Claude&nbsp;Code</em>.</h1>
+    <p class="lede">A static site, written locally and pushed to Vercel's global edge network with a single command.</p>
+  </header>
+
+  <hr class="rule">
+
+  <section>
+    <h2>How it got here</h2>
+    <ol>
+      <li><span class="n">01</span><div>
+        <p class="t">Written locally</p>
+        <p class="d">One self-contained <code>index.html</code> — no build step, no dependencies, no framework.</p>
+      </div></li>
+      <li><span class="n">02</span><div>
+        <p class="t">Previewed before shipping</p>
+        <p class="d">Served on <code>localhost</code> and checked in a real browser, so nothing broken goes out.</p>
+      </div></li>
+      <li><span class="n">03</span><div>
+        <p class="t">Deployed with one command</p>
+        <p class="d"><code>npx vercel --prod</code> uploads the folder and returns an HTTPS URL.</p>
+      </div></li>
+      <li><span class="n">04</span><div>
+        <p class="t">Re-deployed on every change</p>
+        <p class="d">Edit the file, run the same command again. A new version is live in seconds.</p>
+      </div></li>
+    </ol>
+  </section>
+
+  <hr class="rule">
+
+  <footer>
+    <span>Built <span id="built">—</span></span>
+    <span>·</span>
+    <span>Static HTML, zero dependencies</span>
+    <button id="theme" type="button">Toggle theme</button>
+  </footer>
+</div>
+<script>
+  document.getElementById('built').textContent =
+    new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+
+  var btn = document.getElementById('theme');
+  try {
+    var saved = localStorage.getItem('theme');
+    if (saved) document.documentElement.setAttribute('data-theme', saved);
+  } catch (e) {}
+  btn.addEventListener('click', function () {
+    var cur = document.documentElement.getAttribute('data-theme');
+    if (!cur) {
+      cur = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    var next = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+  });
+</script>
+</body>
+</html>
